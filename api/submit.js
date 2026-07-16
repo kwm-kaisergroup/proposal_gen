@@ -80,7 +80,7 @@ module.exports = async function handler(req, res) {
     const toEmail = process.env.RESEND_TO_EMAIL;
     const fromEmail = process.env.RESEND_FROM_EMAIL;
 
-    if (!process.env.RESEND_API_KEY || !toEmail || !fromEmail) {
+    if (!toEmail || !fromEmail) {
       return res.status(500).json({
         ok: false,
         message: "邮件服务环境变量未配置完整",
@@ -121,18 +121,29 @@ module.exports = async function handler(req, res) {
       </div>
     `;
 
-    const result = await resend.emails.send({
-      from: fromEmail,
-      to: [toEmail],
-      subject: "新预约提交通知",
-      html,
-      replyTo: toEmail,
+    const { data, error } = await resend.emails.send({
+    from: fromEmail,
+    to: [toEmail],
+    subject: "新预约提交通知",
+    html,
+    replyTo: toEmail,
     });
 
-    return res.status(200).json({
-      ok: true,
-      id: result.data?.id || null,
+    console.log("resend result:", { data, error });
+
+    if (error) {
+    console.error("resend error:", error);
+    return res.status(500).json({
+        ok: false,
+        message: error.message || "邮件发送失败",
     });
+    }
+
+    return res.status(200).json({
+    ok: true,
+    id: data?.id || null,
+    });
+
   } catch (error) {
     console.error("submit error:", error);
     return res.status(500).json({
