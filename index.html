@@ -340,20 +340,30 @@
       }
     }
 
-      .manage-btn {
-        width: 100%;
+      .submit-actions {
+        display: flex;
+        gap: 12px;
+      }
+
+      .submit-actions .submit-btn,
+      .submit-actions .manage-btn {
+        flex: 1;
         height: 44px;
         border: none;
         border-radius: 12px;
-        background: #1677ff;
-        color: #fff;
         font-size: 16px;
         font-weight: 700;
         cursor: pointer;
       }
 
-      .manage-btn:active {
-        opacity: 0.92;
+      .submit-actions .submit-btn {
+        background: #111;
+        color: #fff;
+      }
+
+      .submit-actions .manage-btn {
+        background: #1677ff;
+        color: #fff;
       }
 
     @media (max-width: 420px) {
@@ -800,11 +810,9 @@
         </section>
 
         <div class="submit-bar">
-          <div class="submit-inner">
+          <div class="submit-inner submit-actions">
             <button class="submit-btn" type="submit">提交</button>
-          </div>
-        <div class="action-bar" style="padding: 12px 16px 0;">
-            <button type="button" id="openTawkBtn" class="manage-btn">建议书管理</button>
+            <button class="manage-btn" type="button" id="openTawkBtn">建议书管理</button>
           </div>
         </div>
       </form>
@@ -1096,19 +1104,6 @@
     });
   </script>
 
-  <script>
-    const openTawkBtn = document.getElementById("openTawkBtn");
-
-    if (openTawkBtn) {
-      openTawkBtn.addEventListener("click", function () {
-        if (typeof Tawk_API !== "undefined" && typeof Tawk_API.maximize === "function") {
-          Tawk_API.maximize();
-        } else {
-          alert("对话窗口正在加载，请稍后再试。");
-        }
-      });
-    }
-  </script>
 
   <!--Start of Tawk.to Script-->
   <script type="text/javascript">
@@ -1121,6 +1116,18 @@
       s1.setAttribute("crossorigin", "*");
       s0.parentNode.insertBefore(s1, s0);
     })();
+
+    const openTawkBtn = document.getElementById("openTawkBtn");
+
+    if (openTawkBtn) {
+      openTawkBtn.addEventListener("click", function () {
+        if (typeof Tawk_API !== "undefined" && typeof Tawk_API.maximize === "function") {
+          Tawk_API.maximize();
+        } else {
+          alert("对话窗口正在加载，请稍后再试。");
+        }
+      });
+    }
   </script>
   <!--End of Tawk.to Script-->
 
