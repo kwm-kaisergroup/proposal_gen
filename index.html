@@ -1204,6 +1204,7 @@
   </script>
 
 
+  <!--Start of Tawk.to Script-->
   <script type="text/javascript">
     window.Tawk_API = window.Tawk_API || {};
     window.Tawk_LoadStart = new Date();
@@ -1211,6 +1212,10 @@
 
     Tawk_API.onLoad = function () {
       window.tawkReady = true;
+
+      if (typeof Tawk_API.hideWidget === "function") {
+        Tawk_API.hideWidget();
+      }
 
       var manageBtn = document.getElementById("openTawkBtn");
       if (manageBtn) {
@@ -1235,8 +1240,12 @@
 
       manageBtn.addEventListener("click", function () {
         if (!window.tawkReady) {
-          manageBtn.textContent = "加载中...";
+          alert("对话窗口还在加载，请稍后再试。");
           return;
+        }
+
+        if (typeof Tawk_API.showWidget === "function") {
+          Tawk_API.showWidget();
         }
 
         if (typeof Tawk_API.maximize === "function") {
@@ -1245,6 +1254,7 @@
       });
     });
   </script>
+  <!--End of Tawk.to Script-->
 
 </body>
 </html>
