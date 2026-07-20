@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <link rel="preconnect" href="https://embed.tawk.to" crossorigin />
+  <link rel="dns-prefetch" href="//embed.tawk.to" />
+  
   <title>新建计划书信息</title>
   <style>
     :root {
@@ -73,7 +77,9 @@
       padding: 0;
     }
 
-    .page { padding: 12px 0 120px; }
+    .page {
+      padding: 12px 0 132px;
+    }
 
     .section {
       background: var(--card);
@@ -178,7 +184,9 @@
     }
 
     input::placeholder,
-    textarea::placeholder { color: #b9b9b9; }
+    textarea::placeholder {
+      color: #b9b9b9;
+    }
 
     .select-wrap {
       position: relative;
@@ -196,7 +204,9 @@
       pointer-events: none;
     }
 
-    .select-wrap select { padding-right: 20px; }
+    .select-wrap select {
+      padding-right: 20px;
+    }
 
     .segmented {
       display: flex;
@@ -205,7 +215,9 @@
       justify-content: flex-end;
     }
 
-    .segmented input { display: none; }
+    .segmented input {
+      display: none;
+    }
 
     .segmented label {
       min-width: 64px;
@@ -256,10 +268,17 @@
       white-space: nowrap;
     }
 
-    .remarks-row { align-items: flex-start; }
-    .remarks-row .label-wrap { padding-top: 14px; }
+    .remarks-row {
+      align-items: flex-start;
+    }
 
-    .hidden-fields { display: none; }
+    .remarks-row .label-wrap {
+      padding-top: 14px;
+    }
+
+    .hidden-fields {
+      display: none;
+    }
 
     .submit-bar {
       position: fixed;
@@ -267,26 +286,51 @@
       right: 0;
       bottom: 0;
       z-index: 30;
-      background: linear-gradient(to top, var(--bg) 72%, rgba(245, 245, 245, 0));
-      padding: 12px 16px calc(16px + env(safe-area-inset-bottom));
+      background: #fff;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.04);
     }
 
-    .submit-inner { width: 100%; }
-
-    .submit-btn {
+    .submit-inner {
       width: 100%;
+    }
+
+    .submit-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .submit-actions .submit-btn,
+    .submit-actions .manage-btn {
+      flex: 1;
       height: 52px;
       border: none;
-      border-radius: 10px;
-      background: var(--btn);
-      color: #fff;
-      font-size: 20px;
+      border-radius: 12px;
+      font-size: 18px;
       font-weight: 700;
       cursor: pointer;
     }
 
+    .submit-actions .submit-btn {
+      background: var(--btn);
+      color: #fff;
+    }
+
+    .submit-actions .manage-btn {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .submit-actions .manage-btn:disabled {
+      background: #9ec5ff;
+      color: rgba(255, 255, 255, 0.92);
+      cursor: not-allowed;
+    }
+
     @media (min-width: 768px) {
-      .app-shell { padding: 24px; }
+      .app-shell {
+        padding: 24px;
+      }
 
       .phone-frame {
         max-width: 720px;
@@ -305,89 +349,102 @@
         box-shadow: var(--shadow);
       }
 
-      .section { box-shadow: var(--shadow); }
+      .section {
+        box-shadow: var(--shadow);
+      }
 
       .section:last-of-type {
         border-bottom-left-radius: var(--radius);
         border-bottom-right-radius: var(--radius);
       }
 
-      .label-wrap { width: 140px; }
-      .label { font-size: 18px; }
-      .section-title { font-size: 22px; }
+      .label-wrap {
+        width: 140px;
+      }
+
+      .label {
+        font-size: 18px;
+      }
+
+      .section-title {
+        font-size: 22px;
+      }
 
       input[type="text"],
       input[type="number"],
       input[type="date"],
       input[type="email"],
       select,
-      textarea { font-size: 18px; }
+      textarea {
+        font-size: 18px;
+      }
 
       .submit-bar {
         left: 50%;
         transform: translateX(-50%);
         width: min(720px, calc(100% - 48px));
-        background: transparent;
         padding-left: 0;
         padding-right: 0;
         padding-bottom: 24px;
+        background: transparent;
+        box-shadow: none;
       }
 
-      .submit-btn {
+      .submit-actions .submit-btn,
+      .submit-actions .manage-btn {
         height: 56px;
         border-radius: 12px;
         box-shadow: var(--shadow);
       }
     }
 
-      .submit-actions {
-        display: flex;
-        gap: 12px;
-      }
-
-      .submit-actions .submit-btn,
-      .submit-actions .manage-btn {
-        flex: 1;
-        height: 44px;
-        border: none;
-        border-radius: 12px;
-        font-size: 16px;
-        font-weight: 700;
-        cursor: pointer;
-      }
-
-      .submit-actions .submit-btn {
-        background: #111;
-        color: #fff;
-      }
-
-      .submit-actions .manage-btn {
-        background: #1677ff;
-        color: #fff;
-      }
-
     @media (max-width: 420px) {
-      .label-wrap { width: 92px; }
-      .label { font-size: 15px; }
-      .section-title { font-size: 17px; }
-      .section-extra { font-size: 14px; }
+      .label-wrap {
+        width: 92px;
+      }
+
+      .label {
+        font-size: 15px;
+      }
+
+      .section-title {
+        font-size: 17px;
+      }
+
+      .section-extra {
+        font-size: 14px;
+      }
 
       input[type="text"],
       input[type="number"],
       input[type="date"],
       input[type="email"],
       select,
-      textarea { font-size: 15px; }
+      textarea {
+        font-size: 15px;
+      }
 
       .segmented label {
         min-width: 56px;
         height: 36px;
         font-size: 15px;
       }
+
+      .submit-actions {
+        gap: 10px;
+      }
+
+      .submit-actions .submit-btn,
+      .submit-actions .manage-btn {
+        height: 48px;
+        font-size: 16px;
+      }
     }
 
     @media (min-width: 992px) {
-      .app-shell { padding: 28px; }
+      .app-shell {
+        padding: 28px;
+      }
 
       .phone-frame {
         max-width: 1200px;
@@ -417,19 +474,34 @@
         padding: 0 22px;
       }
 
-      .section-header { min-height: 64px; }
-      .section-title { font-size: 20px; }
+      .section-header {
+        min-height: 64px;
+      }
+
+      .section-title {
+        font-size: 20px;
+      }
 
       .form-row {
         min-height: 56px;
         padding: 12px 0;
       }
 
-      .label-wrap { width: 220px; }
-      .label { font-size: 16px; }
-      .label-note { font-size: 12px; }
+      .label-wrap {
+        width: 220px;
+      }
 
-      .field { justify-content: flex-start; }
+      .label {
+        font-size: 16px;
+      }
+
+      .label-note {
+        font-size: 12px;
+      }
+
+      .field {
+        justify-content: flex-start;
+      }
 
       input[type="text"],
       input[type="number"],
@@ -454,8 +526,13 @@
         min-height: 96px;
       }
 
-      .select-wrap select { padding-right: 36px; }
-      .segmented { justify-content: flex-start; }
+      .select-wrap select {
+        padding-right: 36px;
+      }
+
+      .segmented {
+        justify-content: flex-start;
+      }
 
       .segmented label {
         min-width: 72px;
@@ -472,34 +549,27 @@
         bottom: auto;
         transform: none;
         width: auto;
+        box-shadow: none;
       }
 
       .submit-inner {
-        display: flex;
-        justify-content: flex-end;
+        width: 100%;
       }
 
-      .submit-btn {
-        width: 240px;
+      .submit-actions {
+        justify-content: flex-end;
+        max-width: 520px;
+        margin-left: auto;
+      }
+
+      .submit-actions .submit-btn,
+      .submit-actions .manage-btn {
         height: 48px;
         border-radius: 12px;
-        box-shadow: var(--shadow);
         font-size: 18px;
+        box-shadow: var(--shadow);
       }
     }
-
-      .submit-bar {
-        padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-        background: #fff;
-      }
-
-      .submit-bar {
-        position: sticky;
-        bottom: 0;
-        z-index: 50;
-        padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-        background: #fff;
-      }
 
     #policyHolderFields[data-locked="1"] input[type="text"],
     #policyHolderFields[data-locked="1"] input[type="number"],
@@ -825,7 +895,9 @@
         <div class="submit-bar">
           <div class="submit-inner submit-actions">
             <button class="submit-btn" type="submit">提交</button>
-            <button class="manage-btn" type="button" id="openTawkBtn">建议书管理</button>
+            <button class="manage-btn" type="button" id="openTawkBtn" disabled>
+              建议书管理加载中...
+            </button>
           </div>
         </div>
       </form>
@@ -1098,9 +1170,14 @@
       }
 
       const submitBtn = form.querySelector(".submit-btn");
+      const manageBtn = document.getElementById("openTawkBtn");
+
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.textContent = "提交中...";
+      }
+      if (manageBtn) {
+        manageBtn.disabled = true;
       }
 
       try {
@@ -1113,6 +1190,14 @@
           submitBtn.disabled = false;
           submitBtn.textContent = "提交";
         }
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "提交";
+        }
+        if (manageBtn && typeof Tawk_API !== "undefined" && typeof Tawk_API.maximize === "function") {
+          manageBtn.disabled = false;
+          manageBtn.textContent = "建议书管理";
+        }        
       }
     });
   </script>
@@ -1122,11 +1207,13 @@
   <script type="text/javascript">
     window.Tawk_API = window.Tawk_API || {};
     window.Tawk_LoadStart = new Date();
-    window.tawkReady = false;
 
     Tawk_API.onLoad = function () {
-      window.tawkReady = true;
-      console.log("Tawk loaded");
+      var openTawkBtn = document.getElementById("openTawkBtn");
+      if (openTawkBtn) {
+        openTawkBtn.disabled = false;
+        openTawkBtn.textContent = "建议书管理";
+      }
     };
 
     (function () {
@@ -1141,23 +1228,18 @@
 
     document.addEventListener("DOMContentLoaded", function () {
       var openTawkBtn = document.getElementById("openTawkBtn");
-
       if (!openTawkBtn) return;
 
       openTawkBtn.addEventListener("click", function () {
-        if (!window.tawkReady) {
-          alert("对话窗口还没加载完成，请稍后再试。");
+        if (openTawkBtn.disabled) {
+          alert("对话窗口还在加载，请稍后再试。");
           return;
-        }
-
-        if (typeof Tawk_API.showWidget === "function") {
-          Tawk_API.showWidget();
         }
 
         if (typeof Tawk_API.maximize === "function") {
           Tawk_API.maximize();
         } else {
-          alert("当前聊天窗口无法打开，请刷新页面再试。");
+          alert("当前聊天窗口暂时无法打开，请刷新页面再试。");
         }
       });
     });
