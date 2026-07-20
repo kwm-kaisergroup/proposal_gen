@@ -1120,16 +1120,18 @@
 
   <!--Start of Tawk.to Script-->
   <script type="text/javascript">
-    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    window.Tawk_API = window.Tawk_API || {};
+    window.Tawk_LoadStart = new Date();
+    window.tawkReady = false;
 
     Tawk_API.onLoad = function () {
-      if (typeof Tawk_API.hideWidget === "function") {
-        Tawk_API.hideWidget();
-      }
+      window.tawkReady = true;
+      console.log("Tawk loaded");
     };
 
     (function () {
-      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      var s1 = document.createElement("script");
+      var s0 = document.getElementsByTagName("script")[0];
       s1.async = true;
       s1.src = "https://embed.tawk.to/6a55b3ec867e741d48fd9ae8/1jtfcdl9p";
       s1.charset = "UTF-8";
@@ -1137,21 +1139,28 @@
       s0.parentNode.insertBefore(s1, s0);
     })();
 
-    const openTawkBtn = document.getElementById("openTawkBtn");
+    document.addEventListener("DOMContentLoaded", function () {
+      var openTawkBtn = document.getElementById("openTawkBtn");
 
-    if (openTawkBtn) {
+      if (!openTawkBtn) return;
+
       openTawkBtn.addEventListener("click", function () {
-        if (typeof Tawk_API !== "undefined" && typeof Tawk_API.showWidget === "function") {
+        if (!window.tawkReady) {
+          alert("对话窗口还没加载完成，请稍后再试。");
+          return;
+        }
+
+        if (typeof Tawk_API.showWidget === "function") {
           Tawk_API.showWidget();
         }
 
-        if (typeof Tawk_API !== "undefined" && typeof Tawk_API.maximize === "function") {
+        if (typeof Tawk_API.maximize === "function") {
           Tawk_API.maximize();
         } else {
-          alert("对话窗口正在加载，请稍后再试。");
+          alert("当前聊天窗口无法打开，请刷新页面再试。");
         }
       });
-    }
+    });
   </script>
   <!--End of Tawk.to Script-->
 
