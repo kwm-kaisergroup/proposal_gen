@@ -488,6 +488,19 @@
       }
     }
 
+      .submit-bar {
+        padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+        background: #fff;
+      }
+
+      .submit-bar {
+        position: sticky;
+        bottom: 0;
+        z-index: 50;
+        padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+        background: #fff;
+      }
+
     #policyHolderFields[data-locked="1"] input[type="text"],
     #policyHolderFields[data-locked="1"] input[type="number"],
     #policyHolderFields[data-locked="1"] input[type="date"],
@@ -1108,6 +1121,13 @@
   <!--Start of Tawk.to Script-->
   <script type="text/javascript">
     var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+
+    Tawk_API.onLoad = function () {
+      if (typeof Tawk_API.hideWidget === "function") {
+        Tawk_API.hideWidget();
+      }
+    };
+
     (function () {
       var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
       s1.async = true;
@@ -1121,6 +1141,10 @@
 
     if (openTawkBtn) {
       openTawkBtn.addEventListener("click", function () {
+        if (typeof Tawk_API !== "undefined" && typeof Tawk_API.showWidget === "function") {
+          Tawk_API.showWidget();
+        }
+
         if (typeof Tawk_API !== "undefined" && typeof Tawk_API.maximize === "function") {
           Tawk_API.maximize();
         } else {
