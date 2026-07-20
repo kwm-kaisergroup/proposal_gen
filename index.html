@@ -1224,6 +1224,14 @@
       }
     };
 
+    if (typeof Tawk_API.onChatMinimized !== "undefined") {
+      Tawk_API.onChatMinimized = function () {
+        if (typeof Tawk_API.hideWidget === "function") {
+          Tawk_API.hideWidget();
+        }
+      };
+    }
+
     (function () {
       var s1 = document.createElement("script");
       var s0 = document.getElementsByTagName("script")[0];
@@ -1240,16 +1248,14 @@
 
       manageBtn.addEventListener("click", function () {
         if (!window.tawkReady) {
-          alert("对话窗口还在加载，请稍后再试。");
+          window.location.href = "https://tawk.to/chat/6a55b3ec867e741d48fd9ae8/1jtfcdl9p";
           return;
-        }
-
-        if (typeof Tawk_API.showWidget === "function") {
-          Tawk_API.showWidget();
         }
 
         if (typeof Tawk_API.maximize === "function") {
           Tawk_API.maximize();
+        } else {
+          window.location.href = "https://tawk.to/chat/6a55b3ec867e741d48fd9ae8/1jtfcdl9p";
         }
       });
     });
