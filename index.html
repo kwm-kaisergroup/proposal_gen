@@ -6,7 +6,8 @@
 
   <link rel="preconnect" href="https://embed.tawk.to" crossorigin />
   <link rel="dns-prefetch" href="//embed.tawk.to" />
-  
+  <link rel="preload" as="script" href="https://embed.tawk.to/6a55b3ec867e741d48fd9ae8/1jtfcdl9p" crossorigin />
+
   <title>新建计划书信息</title>
   <style>
     :root {
@@ -1203,16 +1204,18 @@
   </script>
 
 
-  <!--Start of Tawk.to Script-->
   <script type="text/javascript">
     window.Tawk_API = window.Tawk_API || {};
     window.Tawk_LoadStart = new Date();
+    window.tawkReady = false;
 
     Tawk_API.onLoad = function () {
-      var openTawkBtn = document.getElementById("openTawkBtn");
-      if (openTawkBtn) {
-        openTawkBtn.disabled = false;
-        openTawkBtn.textContent = "建议书管理";
+      window.tawkReady = true;
+
+      var manageBtn = document.getElementById("openTawkBtn");
+      if (manageBtn) {
+        manageBtn.disabled = false;
+        manageBtn.textContent = "建议书管理";
       }
     };
 
@@ -1227,24 +1230,21 @@
     })();
 
     document.addEventListener("DOMContentLoaded", function () {
-      var openTawkBtn = document.getElementById("openTawkBtn");
-      if (!openTawkBtn) return;
+      var manageBtn = document.getElementById("openTawkBtn");
+      if (!manageBtn) return;
 
-      openTawkBtn.addEventListener("click", function () {
-        if (openTawkBtn.disabled) {
-          alert("对话窗口还在加载，请稍后再试。");
+      manageBtn.addEventListener("click", function () {
+        if (!window.tawkReady) {
+          manageBtn.textContent = "加载中...";
           return;
         }
 
         if (typeof Tawk_API.maximize === "function") {
           Tawk_API.maximize();
-        } else {
-          alert("当前聊天窗口暂时无法打开，请刷新页面再试。");
         }
       });
     });
   </script>
-  <!--End of Tawk.to Script-->
 
 </body>
 </html>
