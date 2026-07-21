@@ -1049,6 +1049,8 @@
       const sameAsInsured = !!(sameAsInsuredCheckbox && sameAsInsuredCheckbox.checked);
 
       const payload = {
+        clientSessionId: getClientSessionId(),
+
         insuredName: getInputValue("受保人姓名"),
         insuredGender: getCheckedValue("受保人性别"),
         insuredBirthDate: getInputValue("受保人出生日期"),
@@ -1076,6 +1078,7 @@
         withdrawalPlan: getInputValue("提取计划"),
         remarks: getInputValue("备注"),
       };
+
 
       const response = await fetch("/api/submit", {
         method: "POST",
@@ -1170,6 +1173,33 @@
         }
       }
 
+    function getClientSessionId() {
+    var key = "proposal_client_session_id";
+    var existing = localStorage.getItem(key);
+
+    if (existing) return existing;
+
+    var id = "SID-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8).toUpperCase();
+    localStorage.setItem(key, id);
+    return id;
+  }
+
+  function setTawkVisitorAttributes(result) {
+    if (typeof Tawk_API === "undefined" || typeof Tawk_API.setAttributes !== "function") {
+      return;
+    }
+
+    Tawk_API.setAttributes({
+      clientSessionId: getClientSessionId(),
+      proposalId: result.proposalId || "",
+      insuredName: getInputValue("受保人姓名") || ""
+    }, function (error) {
+      if (error) {
+        console.error("Tawk setAttributes error:", error);
+      }
+    });
+  }
+
       const submitBtn = form.querySelector(".submit-btn");
       const manageBtn = document.getElementById("openTawkBtn");
 
@@ -1182,7 +1212,8 @@
       }
 
       try {
-        await submitFormData();
+        const result = await submitFormData();
+        setTawkVisitorAttributes(result);
         showSubmittedMask();
       } catch (error) {
         alert(error.message || "提交失败，请稍后再试。");
