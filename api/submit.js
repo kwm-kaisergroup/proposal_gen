@@ -24,6 +24,10 @@ function row(label, value) {
   `;
 }
 
+function generateProposalId() {
+  return "PG-" + Date.now();
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ ok: false, message: "Method Not Allowed" });
@@ -33,6 +37,8 @@ module.exports = async function handler(req, res) {
     const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body || {};
 
     const {
+      clientSessionId,
+
       insuredName,
       insuredGender,
       insuredBirthDate,
@@ -79,8 +85,10 @@ module.exports = async function handler(req, res) {
 
     const toEmail = process.env.RESEND_TO_EMAIL;
     const fromEmail = process.env.RESEND_FROM_EMAIL;
+    const apiKey = process.env.RESEND_API_KEY;
+    const proposalId = generateProposalId();
 
-    if (!toEmail || !fromEmail) {
+    if (!apiKey || !toEmail || !fromEmail) {
       return res.status(500).json({
         ok: false,
         message: "邮件服务环境变量未配置完整",
@@ -91,6 +99,9 @@ module.exports = async function handler(req, res) {
       <div style="font-family:Arial,'PingFang SC','Microsoft YaHei',sans-serif;padding:20px;color:#111827;">
         <h2 style="margin:0 0 16px;">新建计划书信息</h2>
         <table style="border-collapse:collapse;width:100%;max-width:900px;">
+          ${row("申请编号", proposalId)}
+          ${row("会话编号", clientSessionId)}
+
           ${row("受保人姓名", insuredName)}
           ${row("受保人性别", insuredGender)}
           ${row("受保人出生日期", insuredBirthDate)}
@@ -122,28 +133,34 @@ module.exports = async function handler(req, res) {
     `;
 
     const { data, error } = await resend.emails.send({
-    from: fromEmail,
-    to: [toEmail],
-    subject: "新预约提交通知",
-    html,
-    replyTo: toEmail,
+      from: fromEmail,
+      to: [toEmail],
+      subject: `新预约提交通知 - ${proposalId}`,
+      html,
+      replyTo: toEmail,
     });
 
-    console.log("resend result:", { data, error });
+    console.log("resend result:", {
+      data,
+      error,
+      proposalId,
+      clientSessionId,
+    });
 
     if (error) {
-    console.error("resend error:", error);
-    return res.status(500).json({
+      console.error("resend error:", error);
+      return res.status(500).json({
         ok: false,
         message: error.message || "邮件发送失败",
-    });
+      });
     }
 
     return res.status(200).json({
-    ok: true,
-    id: data?.id || null,
+      ok: true,
+      proposalId,
+      clientSessionId: clientSessionId || "",
+      id: data?.id || null,
     });
-
   } catch (error) {
     console.error("submit error:", error);
     return res.status(500).json({
